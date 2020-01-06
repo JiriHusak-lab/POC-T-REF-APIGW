@@ -40,6 +40,7 @@ const logger = loggers.get('app')
 const YAML = require('yamljs');
 
 // routers
+const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const gatewayRouter = require('./routes/gatewayRouter');
 
@@ -143,18 +144,6 @@ const swaggerUi = require('swagger-ui-express');
 
 const swaggerDocument = YAML.load('./Api.yaml');
 
-/*
- * pokus o generovani Mongoose schema ze Swagger
- * swaggerObj = jsYaml.load(fs.readFileSync('./Api.yaml', {encoding: 'utf-8'}));
- * var Test = swaggerMongoose.compile(swaggerObj).schemas.Error
- * var myPet = new Test({
- * status: 123,
- * statusCase: 'Fluffy',
- * msg: "test"
- * });
- * logger.info(`Mongoose: ${JSON.stringify(myPet)}`)
- */
-
 app.all('/api-docs/*', auth);
 app.use('/api-docs/v1', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -185,7 +174,7 @@ app.enable('strict routing');
  *pOZOR: vsechny konfigurace pred definovanim routes !!!
  *Mapovani routes
  */
-
+app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/gateway', gatewayRouter);
 // catch 404 and forward to error handler
