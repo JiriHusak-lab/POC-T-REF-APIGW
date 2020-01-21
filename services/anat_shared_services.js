@@ -142,9 +142,9 @@ module.exports = function SharedServicesANAT(sConfig) {
             */
 
             let url = ''
-            if (req.method === 'POST') {
+            if (req.method === 'PUT') {
                 if (req.path.includes('wmj')) {
-                    url = systemConfig.APP_JOURNAL_URL + systemConfig.APP_JOURNAL_POST_PATH
+                    return 501
 
                 } else if (req.path.includes('mms')) {
                     url = systemConfig.APP_MATERIAL_URL + systemConfig.APP_MATERIAL_POST_PATH
@@ -158,6 +158,9 @@ module.exports = function SharedServicesANAT(sConfig) {
 
                 } else if (req.path.includes('mms')) {
                     url = systemConfig.APP_MATERIAL_URL + systemConfig.APP_MATERIAL_GET_PATH
+
+                } else if (req.path.includes('coco')) {
+                    url = systemConfig.APP_COCO_URL + systemConfig.APP_COCO_GET_PATH
 
                 } else {
                     return 501

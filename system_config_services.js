@@ -161,6 +161,19 @@ module.exports = function ConfigServices () {
         } else {
             logger.error('No user defined evn variable APP_MATERIAL_GET_PATH');
         }
+
+        if (process.env.hasOwnProperty('APP_COCO_URL')) {
+            vcap.APP_COCO_URL = process.env.APP_COCO_URL;
+        } else {
+            logger.error('No user defined evn variable APP_COCO_URL');
+        }
+
+
+        if (process.env.hasOwnProperty('APP_COCO_GET_PATH')) {
+            vcap.APP_COCO_GET_PATH = process.env.APP_COCO_GET_PATH;
+        } else {
+            logger.error('No user defined evn variable APP_COCO_GET_PATH');
+        }
         
         if (!vcap) {
             const err = 'No vcap created and initialized - shutting down.'
