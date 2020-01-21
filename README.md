@@ -103,9 +103,9 @@ PUT localhost:3000/gateway/mms (with 'ibm-sec-token' header)
     ]
 }
 
-GET localhost:3000/gateway/mms?kmat=77777
+GET localhost:3000/gateway/mms?kmat=77777 (with 'ibm-sec-token' header)
 
-GET localhost:3000/gateway/coco?roles=manager,worker
+GET localhost:3000/gateway/coco?roles=manager,worker (with 'ibm-sec-token' header)
 
 ## OpenShift Deployment
 For non local deployment there is a script **npm run docker** which uses ./config/.docker.env file to provide required environment variables
