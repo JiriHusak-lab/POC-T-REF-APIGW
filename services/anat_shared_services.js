@@ -147,7 +147,7 @@ module.exports = function SharedServicesANAT(sConfig) {
                     return 501
 
                 } else if (req.path.includes('mms')) {
-                    url = systemConfig.APP_MATERIAL_URL + systemConfig.APP_MATERIAL_POST_PATH
+                    url = systemConfig.APP_MATERIAL_URL + systemConfig.APP_MATERIAL_PUT_PATH
 
                 } else {
                     return 501
@@ -195,17 +195,35 @@ module.exports = function SharedServicesANAT(sConfig) {
             if (req) {
                 const remoteUrl = selectServiceToCall(req)
                 if (isNaN(remoteUrl)) {
-                    logger.info(`About to call  remote server url: ${remoteUrl}`)
-                    axios({
-                        method: req.method,
-                        url: remoteUrl,
-                        timeout: 5000,
-                        responseType: 'application/json',
-                        headers: {
-                            'Content-Type': 'application/json'
+                    logger.info(`About to call  remote server url: ${remoteUrl} with method: ${req.method}`)
+                    let reqObject = {}
+                    if (req.method === 'GET') {
+                        reqObject = {
+                            method: req.method,
+                            url: remoteUrl,
+                            timeout: 5000,
+                            responseType: 'application/json',
+                            headers: {
+                                'Content-Type': 'application/json'
 
+                            }
                         }
-                    })
+                    } else if (req.method === 'PUT') {
+                        logger.info(`For method: ${req.method}, req body: ${JSON.stringify(req.body)}`)
+                        reqObject = {
+                            method: req.method,
+                            url: remoteUrl,
+                            data: req.body,
+                            timeout: 5000,
+                            responseType: 'application/json',
+                            headers: {
+                                'Content-Type': 'application/json'
+
+                            }
+                        }
+                    }
+
+                    axios(reqObject)
                         .then((res) => {
                             //  logger.info(res.data);
                             resolve(res.data)

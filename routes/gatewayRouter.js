@@ -9,30 +9,25 @@ const express = require('express');
 const router = express.Router();
 const jwtMiddleware = require('../jwt-express-middleware');
 
-/* gET home page. */
-router.post('*', jwtMiddleware.checkSecurityToken, async (req, res) => {
+
+router.put('/*', jwtMiddleware.checkSecurityToken, async (req, res) => {
 	try {
 		const Services = res.app.get('shared_services');
-		const SystemConfig = res.app.get('system_config');
-		logger.info(`Starting gateway POST api on path: ${req.path} with incoming request: ${JSON.stringify(req.body)}' and jwt payload: ${JSON.stringify(req.jwtPayload)}`)
+		logger.info(`Starting gateway PUT api on path: ${req.path} with incoming request: ${JSON.stringify(req.body)}' and jwt payload: ${JSON.stringify(req.jwtPayload)}`)
+		let status = 500
+		const result = await Services.doRemoteRequest(req)
+		logger.info(`Remote api done with result: ${JSON.stringify(result)}`)
 
-		let result = {}
+		/*
+		 *problematicke: remote sluzba nevraci status
+		 */
 
-		if (SystemConfig.RUNTIME_MODE === 'cloud') {
-			logger.info('Starting Remote service call')
-			result = await Services.doRemoteRequest(req)
-			logger.info(`Remote LDAP: login api done with result: ${JSON.stringify(result)}`)
+		if (result) {
+			status = 200
+			res.json(result).status(200).end()
+			
 		} else {
-			logger.info('Starting Local MOCK service call')
-
-			result = await Services.doLocalMockRequest(req)
-			logger.info(`Local MOCK: login api done with result: ${JSON.stringify(result)}`)
-		}
-		if (result.status === 202) {
-
-			res.json(result).status(result.status).end()
-		} else {
-			res.json(result).status(result.status).end()
+			res.sendStatus(status)
 		}
 
 
@@ -49,15 +44,13 @@ router.post('*', jwtMiddleware.checkSecurityToken, async (req, res) => {
 router.get('/*', jwtMiddleware.checkSecurityToken, async (req, res) => {
 	try {
 		const Services = res.app.get('shared_services');
-		const SystemConfig = res.app.get('system_config');
 		logger.info(`Starting gateway ${req.method} api on path: ${req.originalUrl} with parameters: ${JSON.stringify(req.query)} and jwt payload: ${JSON.stringify(req.jwtPayload)}`)
 
 		let result = {}
 		let status = 500
 
-		if (SystemConfig.RUNTIME_MODE === 'localDev') {
-			logger.info('Starting Remote service call')
-			await Services.doRemoteRequest(req)
+
+		await Services.doRemoteRequest(req)
 			.then((response) => {
 				logger.info(`Remote service call done with result: ${JSON.stringify(response)}`)
 				status = 200
@@ -67,13 +60,8 @@ router.get('/*', jwtMiddleware.checkSecurityToken, async (req, res) => {
 				logger.error(`Remote service call done with result: ${error}`)
 				status = error
 			})
-			
-		} else {
-			logger.info('Starting Local MOCK service call')
 
-			result = await Services.doLocalMockRequest(req)
-			logger.info(`Local MOCK: service call done done with result: ${JSON.stringify(result)}`)
-		}
+
 		if (status === 200) {
 			res.json(result).status(status).end()
 		} else {

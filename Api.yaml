@@ -93,7 +93,7 @@ paths:
     get:
       tags:
         - Gateway services
-      description: Provides GET routing. Currently only MMS and WMJ are supported.<br>Service is identified by XXX code (currently supported wmj, mms). <br>**IT IS NOT POSSIBLE TO TEST** the api due to inability to express generic nature of query part of URL path in OAS3 format.<br>Example of supported call from Postman or provided testcases (/tests/gateway.test.js) <br>* **/gateway/mms?kmat=hrasko**
+      description: Provides GET(PUT) routing. Currently only MMS and WMJ are supported.<br>Service is identified by XXX code (currently supported wmj, mms). <br>**IT IS NOT POSSIBLE TO TEST** the api due to inability to express generic nature of query part of URL path in OAS3 format.<br>Example of supported call from Postman or provided testcases (/tests/gateway.test.js) <br>* **/gateway/mms?kmat=hrasko**
 
       parameters:
         - $ref: "#/components/parameters/ibm-sec-token"

@@ -86,7 +86,26 @@ There are numerous bootstrap and configuration variables that must be available 
 
 * APP_MATERIAL_URL='https://mms-ibm-demo-app.trineckezelezarny-15729-56325c34021cf286d0e188cc291cdca2-0001.us-east.containers.appdomain.cloud/'
 * APP_MATERIAL_GET_PATH=Materials/mms
-* APP_MATERIAL_POST_PATH=Materials/mms
+* APP_MATERIAL_PUT_PATH=Materials/mms
+
+## Examples of API calls:
+PUT localhost:3000/gateway/mms (with 'ibm-sec-token' header)
+
+{
+    "msg": [
+        {
+            "hmotnost": 1000,
+            "id": 29,
+            "kmat": "77777",
+            "mnozstvi": 2,
+            "mvm": "001"
+        }
+    ]
+}
+
+GET localhost:3000/gateway/mms?kmat=77777
+
+GET localhost:3000/gateway/coco?roles=manager,worker
 
 ## OpenShift Deployment
 For non local deployment there is a script **npm run docker** which uses ./config/.docker.env file to provide required environment variables
