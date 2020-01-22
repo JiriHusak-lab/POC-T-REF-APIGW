@@ -143,7 +143,7 @@ module.exports = function SharedServicesANAT(sConfig) {
 
             let url = ''
             if (req.method === 'PUT') {
-                if (req.path.includes('wmj')) {
+                if (req.path.includes('journal')) {
                     return 501
 
                 } else if (req.path.includes('mms')) {
@@ -153,7 +153,7 @@ module.exports = function SharedServicesANAT(sConfig) {
                     return 501
                 }
             } else if (req.method === 'GET') {
-                if (req.path.includes('wmj')) {
+                if (req.path.includes('journal')) {
                     url = systemConfig.APP_JOURNAL_URL + systemConfig.APP_JOURNAL_GET_PATH
 
                 } else if (req.path.includes('mms')) {
