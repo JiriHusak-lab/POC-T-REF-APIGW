@@ -6,6 +6,7 @@ RUN yum install -y nodejs
 
 
 RUN mkdir -p /usr/src/apps/gateway
+RUN chmod -R 777 /usr/src/apps/gateway
 WORKDIR /usr/src/apps/gateway
 COPY  package.json /usr/src/apps/gateway
 COPY . /usr/src/apps/gateway
@@ -30,4 +31,6 @@ EXPOSE 3000
 
 RUN /bin/bash -c 'date'
 RUN /bin/bash -c 'cat /etc/timezone'
+RUN /bin/bash -c 'pwd'
+RUN /bin/bash -c 'ls -ld'
 CMD ["npm", "run", "start"]
