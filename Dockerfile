@@ -1,6 +1,8 @@
-FROM node:8
+#FROM node:8
+FROM docker.io/library/centos:7
+
 ENV DEBIAN_FRONTEND=noninteractive
-#RUN apt-get install -y tzdata
+##RUN apt-get install -y tzdata
 
 ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
