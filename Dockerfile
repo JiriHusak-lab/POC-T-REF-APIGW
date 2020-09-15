@@ -14,9 +14,9 @@ RUN ls /usr/src/apps/gateway
 RUN npm i  && ln -s /app/node_modules/ /node_modules
 
 
-#ENV DEBIAN_FRONTEND=noninteractive
-#ENV TZ=Europe/Berlin
-#RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Berlin
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #RUN apt update && apt install
 #RUN /bin/bash -c 'source $HOME/.bashrc; date'
 
